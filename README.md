@@ -2,10 +2,11 @@
 By Fastattack, 2024
 
 ## Introduction
-This module contains more, easy to use, customtkinter widgets
-This file will present you the principal ones
+This module contains more, easy to use, customtkinter widgets.
 
-## Modules
+This file will present you the best ones.
+
+## Widgets
 
 ### SmoothFrame
 This widget is a normal frame but with one upgrade: animations !
