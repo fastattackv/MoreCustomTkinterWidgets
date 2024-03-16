@@ -7,8 +7,8 @@ import os
 from PIL import Image
 from typing import Literal, Optional, Union, Tuple
 
-from Message import showwarning
-from AskValue import askstring
+from .Message import showwarning
+from .AskValue import askstring
 
 
 def join_paths(path: str, *paths: str) -> str:
@@ -85,8 +85,8 @@ class FileExplorer(ctk.CTkFrame):
             self.selected_path = ctk.StringVar(self, value=os.getcwd())
         self.selected_path.trace_add("write", self._user_path_changed)
 
-        self.folder_image = ctk.CTkImage(Image.open("Images/folder_light.png"), Image.open("Images/folder_dark.png"))
-        self.file_image = ctk.CTkImage(Image.open("Images/file_light.png"), Image.open("Images/file_dark.png"))
+        self.folder_image = ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/folder_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/folder_dark.png")))
+        self.file_image = ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/file_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/file_dark.png")))
 
         self.canvas = ctk.CTkCanvas(self, width=width - 16, height=height - 54, highlightthickness=0)
         if fg_color == "transparent":
@@ -96,9 +96,9 @@ class FileExplorer(ctk.CTkFrame):
 
         self.explorer_frame = ctk.CTkFrame(self.canvas, width=width - 16, height=height - 54, fg_color=fg_color)
 
-        self.back_button = ctk.CTkButton(self, image=ctk.CTkImage(Image.open("Images/back_arrow_light.png"), Image.open("Images/back_arrow_dark.png")), text="", command=self._move_back, width=35)
+        self.back_button = ctk.CTkButton(self, image=ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/back_arrow_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/back_arrow_dark.png"))), text="", command=self._move_back, width=35)
         self.path_entry = ctk.CTkEntry(self, textvariable=self.selected_path, width=width - 96)
-        self.create_dir_button = ctk.CTkButton(self, image=ctk.CTkImage(Image.open("Images/new_folder_light.png"), Image.open("Images/new_folder_dark.png")), text="", command=self._create_directory, width=35)
+        self.create_dir_button = ctk.CTkButton(self, image=ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/new_folder_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/new_folder_dark.png"))), text="", command=self._create_directory, width=35)
         self.y_scrollbar = ctk.CTkScrollbar(self, height=height - 38, command=self.canvas.yview)
         self.x_scrollbar = ctk.CTkScrollbar(self, orientation="horizontal", width=width - 16, command=self.canvas.xview)
         self.canvas.configure(yscrollcommand=self.y_scrollbar.set)

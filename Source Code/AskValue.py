@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from typing import Literal
 
-from Message import showwarning
+from .Message import showwarning
 
 
 class AskValue(ctk.CTkInputDialog):

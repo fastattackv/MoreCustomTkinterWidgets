@@ -1,6 +1,11 @@
 # MoreCustomTkinterWidgets
 By Fastattack, 2024
 
+[![Pypi](https://img.shields.io/badge/Pypi-blue)](https://pypi.org/project/MoreCustomTkinterWidgets)
+
+> [!NOTE]
+> The package is cross-platform, but the Message class will only be able to create sounds if the winsound module is installed (only available on windows)
+
 ## Introduction
 This module contains more, easy to use, customtkinter widgets.
 

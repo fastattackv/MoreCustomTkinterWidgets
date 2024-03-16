@@ -1,7 +1,12 @@
 import customtkinter as ctk
-import winsound
+import os
 from PIL import Image
 from typing import Literal
+try:
+    import winsound
+    winsound_activated = True
+except ModuleNotFoundError:
+    winsound_activated = False
 
 
 class Message(ctk.CTkToplevel):
@@ -11,11 +16,13 @@ class Message(ctk.CTkToplevel):
         :param title: title of the toplevel widget
         :param message: message to show
         :param typ: type of message to show ("info" / "warning" / "error")
-        :param sound: optional: if set to True (True by default), the beep windows sound will be played as the message
-            shows
+        :param sound: optional: if set to True (True by default), the beep windows sound will be played as the message shows
         :param args: args for ctk.CTkToplevel
         :param kwargs: kwargs for ctk.CTkToplevel
         """
+        if not winsound_activated:
+            sound = False
+
         super().__init__(*args, **kwargs)
         self.lift()  # lift window on top
         self.attributes("-topmost", True)  # stay on top
@@ -25,19 +32,19 @@ class Message(ctk.CTkToplevel):
         self.title(title)
 
         if typ == "info":
-            pil_image = Image.open("Images/info.png")
+            pil_image = Image.open(os.path.join(os.path.dirname(__file__), "Images/info.png"))
             ctk_image = ctk.CTkImage(pil_image, pil_image, (85, 85))
             self.image = ctk.CTkLabel(self, text="", image=ctk_image, width=85, height=85)
             self.image.grid(row=0, column=0, padx=10, pady=15)
             pil_image.close()
         elif typ == "warning":
-            pil_image = Image.open("Images/warning.png")
+            pil_image = Image.open(os.path.join(os.path.dirname(__file__), "Images/warning.png"))
             ctk_image = ctk.CTkImage(pil_image, pil_image, (85, 85))
             self.image = ctk.CTkLabel(self, text="", image=ctk_image, width=85, height=85)
             self.image.grid(row=0, column=0, padx=10, pady=15)
             pil_image.close()
         elif typ == "error":
-            pil_image = Image.open("Images/error.png")
+            pil_image = Image.open(os.path.join(os.path.dirname(__file__), "Images/error.png"))
             ctk_image = ctk.CTkImage(pil_image, pil_image, (85, 85))
             self.image = ctk.CTkLabel(self, text="", image=ctk_image, width=85, height=85)
             self.image.grid(row=0, column=0, padx=10, pady=15)
