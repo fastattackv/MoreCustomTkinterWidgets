@@ -28,7 +28,7 @@ win.mainloop()
 ```
 This code produces the following result (but at 120Hz of course ;) ):
 
-![SmoothFrame example](Example%20files/SmoothFrame_example.gif)
+![SmoothFrame example](../Example%20files/SmoothFrame_example.gif)
 
 ---
 
@@ -50,7 +50,7 @@ win.mainloop()
 ```
 This code produces the following result:
 
-![FileExplorer example](Example%20files/FileExplorer_example.png)
+![FileExplorer example](../Example%20files/FileExplorer_example.png)
 
 ```python
 import MoreCustomTkinterWidgets as mctk
@@ -60,7 +60,7 @@ selected_path = mctk.askfile("Title")
 
 And this code produces the following result (in a TopLevel):
 
-![FileDialog example](Example%20files/FileDialog_example.png)
+![FileDialog example](../Example%20files/FileDialog_example.png)
 
 ---
 
@@ -81,7 +81,7 @@ win.mainloop()
 ```
 This code produces the following result:
 
-![Selector example](Example%20files/Selector_example.png)
+![Selector example](../Example%20files/Selector_example.png)
 
 ---
 
@@ -95,7 +95,7 @@ response = mctk.askyesno("Title", "Message")
 ```
 This code produces the following result:
 
-![AskDialog example](Example%20files/AskDialog_example.png)
+![AskDialog example](../Example%20files/AskDialog_example.png)
 
 ---
 
@@ -109,7 +109,7 @@ response = mctk.askstring("Title", "Message")
 ````
 This code produces the following result:
 
-![AskValue example](Example%20files/AskValue_example.png)
+![AskValue example](../Example%20files/AskValue_example.png)
 
 ---
 
@@ -123,4 +123,4 @@ mctk.showerror("Title", "Error message")
 ```
 This code produces the following result:
 
-![Message example](Example%20files/Message_example.png)
+![Message example](../Example%20files/Message_example.png)
