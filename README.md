@@ -11,6 +11,9 @@ This module contains more, easy to use, customtkinter widgets.
 
 This file will present you the best ones.
 
+## How To install
+To install the package, you should use pip. Install the package with the following command: `pip install MoreCustomTkinterWidgets`
+
 ## Widgets
 
 ### SmoothFrame
