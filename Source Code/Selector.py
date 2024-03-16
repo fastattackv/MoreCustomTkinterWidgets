@@ -10,7 +10,7 @@ class Selector(ctk.CTkScrollableFrame):
         :param args: args for the ScrollableFrame widget
         :param kwargs: kwargs for the ScrollableFrame widget
         """
-        super().__init__(master)
+        super().__init__(master, *args, **kwargs)
 
         added_items = []
         for x in range(len(items)):

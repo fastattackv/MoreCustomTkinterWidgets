@@ -31,7 +31,7 @@ class FileExplorer(ctk.CTkFrame):
                  initialdir: str = None,
                  initialfile: str = None,
 
-                 # customtkinter widget parameters
+                 # customtkinter frame parameters
                  width: int = 200,
                  height: int = 200,
                  corner_radius: Optional[Union[int, str]] = None,

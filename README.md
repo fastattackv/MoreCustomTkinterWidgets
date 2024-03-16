@@ -11,10 +11,9 @@ This module contains more, easy to use, customtkinter widgets.
 
 This file will present you the best ones.
 
-## How To install
-To install the package, you should use pip. Install the package with the following command: `pip install MoreCustomTkinterWidgets`
-
 ## Widgets
+
+[![Examples](https://img.shields.io/badge/Examples-for_all_widgets-blue)](Source%20Code/Examples.md)
 
 ### SmoothFrame
 This widget is a normal frame but with one upgrade: animations !

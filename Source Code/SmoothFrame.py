@@ -35,9 +35,7 @@ def get_coordinates_from_grid(master, column: int, row: int, padx=0, pady=0, ipa
 
 
 class SmoothFrame(ctk.CTkFrame):
-    """
-    Basic CTkFrame but with animations for moving the frame using grid and place
-    """
+    """ Basic CTkFrame but with animations for moving the frame using grid and place """
     def __init__(self,
                  master: any,
                  width: int = 200,
