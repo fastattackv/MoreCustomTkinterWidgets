@@ -16,7 +16,7 @@ def _get_coordinates_of_frame(frame):
 
 
 def get_coordinates_from_grid(master, column: int, row: int, padx=0, pady=0, ipadx=0, ipady=0) -> tuple[int, int]:
-    """Returns the coordinates of the given grid cell
+    """Returns the top left corner coordinates of given grid cell
 
     :param master: master to search the coordinates in
     :param column: column of the cell to obtain the coordinates from
@@ -25,11 +25,11 @@ def get_coordinates_from_grid(master, column: int, row: int, padx=0, pady=0, ipa
     :param pady: padding in y direction
     :param ipadx: internal padding in x direction
     :param ipady: internal padding in y direction
-    :return: tuple containing the x and y coordinates of the given grid cell
+    :return: tuple containing the x and y coordinates of the top left corner of the given grid cell
     """
     temp_frame = ctk.CTkFrame(master, fg_color="transparent", height=1, width=1)
     temp_frame.grid(row=row, column=column, sticky="nw", padx=padx, pady=pady, ipadx=ipadx, ipady=ipady)
-    temp_frame.after(20, lambda: _get_coordinates_of_frame(temp_frame))
+    temp_frame.after(20, lambda: _get_coordinates_of_frame(temp_frame))  # wait until the frame has been gridded and obtains coordinates
     temp_frame.wait_window()
     return _x, _y
 

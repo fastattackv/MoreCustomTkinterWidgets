@@ -227,6 +227,16 @@ class FileExplorer(ctk.CTkFrame):
         else:
             return ""
 
+    def move_to(self, path: str):
+        """Changes the current directory to the given one
+
+        :param path: path of the directory to move to
+        """
+        if os.path.isdir(path):
+            self._move_to(path)
+        else:
+            raise ValueError(f"The given path isn't a directory: {path}")
+
 
 class Filedialog(ctk.CTkToplevel):
     def __init__(self, responsetype: Literal["file", "directory"], title: str, filetypes: list[str] = None,
@@ -283,8 +293,7 @@ class Filedialog(ctk.CTkToplevel):
         self.destroy()
 
     def get_response(self) -> str | None:
-        """Waits until the dialog is closed and returns the path the user selected or None if the user cancelled
-        """
+        """ Waits until the dialog is closed and returns the path the user selected or None if the user cancelled """
         self.master.wait_window(self)
         return self.path
 

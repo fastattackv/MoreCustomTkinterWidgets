@@ -1,7 +1,12 @@
 # MoreCustomTkinterWidgets
 By Fastattack, 2024
 
-[![Pypi](https://img.shields.io/badge/Pypi-blue)](https://pypi.org/project/MoreCustomTkinterWidgets)
+[![Pypi](https://img.shields.io/pypi/v/MoreCustomTkinterWidgets?label=Pypi)](https://pypi.org/project/MoreCustomTkinterWidgets)
+[![GitHub - Total commits](https://img.shields.io/github/commit-activity/t/fastattackv/MoreCustomTkinterWidgets?label=Total%20GitHub%20commits&color=darkblue)](https://github.com/fastattackv/MoreCustomTkinterWidgets)
+[![GitHub - Last commit](https://img.shields.io/github/last-commit/fastattackv/MoreCustomTkinterWidgets?label=Last%20GitHub%20commit&color=darkblue)](https://github.com/fastattackv/MoreCustomTkinterWidgets)
+[![Pypi - Monthly downloads](https://img.shields.io/pypi/dm/MoreCustomTkinterWidgets)](https://pypi.org/project/MoreCustomTkinterWidgets)
+[![Pypi - Total downloads](https://static.pepy.tech/personalized-badge/MoreCustomTkinterWidgets?period=total&units=international_system&left_color=grey&right_color=green&left_text=Total%20Downloads)](https://pypi.org/project/MoreCustomTkinterWidgets)
+[![Lines number](https://tokei.rs/b1/github/fastattackv/MoreCustomTkinterWidgets?category=lines)](https://github.com/fastattackv/MoreCustomTkinterWidgets/tree/main/Source%20Code)
 
 > [!NOTE]
 > The package is cross-platform, but the Message class will only be able to create sounds if the winsound module is installed (only available on windows)
@@ -11,12 +16,14 @@ This module contains more, easy to use, customtkinter widgets.
 
 This file will present you the best ones.
 
+See [^1] for the mentions.
+
 ## How to install
 To install the package, you should use pip. Install the package with the following command: `pip install MoreCustomTkinterWidgets`
 
 ## Widgets
 
-[![Examples](https://img.shields.io/badge/Examples-for_all_widgets-blue)](Examples.md)
+[![Examples](https://img.shields.io/badge/Examples-For_all_widgets-red)](Examples.md)
 
 ### SmoothFrame
 This widget is a normal frame but with one upgrade: animations !
@@ -48,3 +55,8 @@ This class is used to display messages (TopLevel) to inform the user about error
 It comes with prebuilt functions to use it more easily: showinfo, showwarning, showerror
 
 These functions existed in normal tkinter but didn't go in customtkinter.
+
+
+[^1]: Mentions:
+  Used modules: customtkinter, Pillow
+  Used services for README statistics: [shields.io](https://img.shields.io), [tokei.rs](https://github.com/XAMPPRocky/tokei), [pepy.tech](https://github.com/psincraian/pepy)

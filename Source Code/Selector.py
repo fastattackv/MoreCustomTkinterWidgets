@@ -2,31 +2,81 @@ import customtkinter as ctk
 
 
 class Selector(ctk.CTkScrollableFrame):
-    def __init__(self, master, items: list, *args, **kwargs):
+    def __init__(self, master, items: list[str], multiple_choices=True, *args, **kwargs):
         """Selector widgets to select options in a list of options
 
         :param master: master window for the widget
-        :param items: list of the possible options, only different items
+        :param items: list of the possible options, they should all be different
+        :param multiple_choices: Optional: if set to False, the user will be allowed to select only one item (default=True)
         :param args: args for the ScrollableFrame widget
         :param kwargs: kwargs for the ScrollableFrame widget
         """
         super().__init__(master, *args, **kwargs)
 
-        added_items = []
-        for x in range(len(items)):
-            if str(items[x]) not in added_items:
-                added_items.append(str(items[x]))
-                ctk.CTkCheckBox(self, text=str(items[x])).grid(row=x, column=0, padx=3, pady=3, sticky="w")
+        self.checkboxes = []
+        self.selected_indexes = []
+        self.multiple_choices = multiple_choices
+
+        if len(set(items)) == len(items):  # not 2 times the same item
+            for index in range(len(items)):
+                self.checkboxes.append(ctk.CTkCheckBox(self, text=items[index], command=lambda a=index: self._selection(a)))
+                self.checkboxes[-1].grid(row=index, column=0, padx=3, pady=3)
+        else:
+            raise ValueError("There is two times or more the same item in the given items list")
+
+    def _selection(self, index: int):
+        """ Internal method: selects / unselects the given index """
+        if index in self.selected_indexes:
+            self.selected_indexes.remove(index)
+        else:
+            if self.multiple_choices:
+                self.selected_indexes.append(index)
             else:
-                raise ValueError(f"There is two times or more the same value in the items: {str(items[x])}")
+                if self.selected_indexes:  # list not empty
+                    for i in self.selected_indexes:
+                        self.checkboxes[i].deselect()
+                    self.selected_indexes.clear()
+                    self.selected_indexes.append(index)
+                else:
+                    self.selected_indexes.append(index)
+
+    def get_all_items(self) -> list:
+        """ Returns all the items in the selector """
+        return [checkbox.cget("text") for checkbox in self.checkboxes]
+
+    def configure_selector(self, items: list = None, multiple_choices: bool = None):
+        """Changes the given arguments
+
+        :param items: new items to show, if [] is given: deletes all old items
+        :param multiple_choices: if set to False, the user will be allowed to select only one item
+        """
+        if items is not None:
+            if len(set(items)) == len(items):  # not 2 times the same item
+                # destroy old widgets
+                for checkbox in self.checkboxes:
+                    checkbox.destroy()
+                self.checkboxes.clear()
+                self.selected_indexes.clear()
+
+                # create new ones
+                for index in range(len(items)):
+                    self.checkboxes.append(ctk.CTkCheckBox(self, text=items[index], command=lambda a=index: self._selection(a)))
+                    self.checkboxes[-1].grid(row=index, column=0, padx=3, pady=3)
+            else:
+                raise ValueError("There is two times or more the same item in the given items list")
+
+        if multiple_choices is not None:
+            self.multiple_choices = multiple_choices
+
+    def clear_selections(self):
+        """ Clears the selections """
+        for index in self.selected_indexes:
+            self.checkboxes[index].deselect()
+        self.selected_indexes.clear()
 
     def get_selections(self) -> list:
         """Returns the selected items
 
         :return: selected items, empty list if none were selected
         """
-        selected_items = []
-        for widget in self.winfo_children():
-            if widget.get():
-                selected_items.append(widget.cget("text"))
-        return selected_items
+        return [self.checkboxes[index] for index in self.selected_indexes]
