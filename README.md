@@ -23,7 +23,8 @@ To install the package, you should use pip. Install the package with the followi
 
 ## Widgets
 
-[![Examples](https://img.shields.io/badge/Examples-For_all_widgets-red)](Examples.md)
+[![Examples](https://img.shields.io/badge/Examples_for_all_widgets-red)](Examples.md)
+[![Patch Notes](https://img.shields.io/badge/Patch_Notes-yellow)](Patch%20notes.md)
 
 ### SmoothFrame
 This widget is a normal frame but with one upgrade: animations !
@@ -58,5 +59,7 @@ These functions existed in normal tkinter but didn't go in customtkinter.
 
 
 [^1]: Mentions:
-  Used modules: customtkinter, Pillow
-  Used services for README statistics: [shields.io](https://img.shields.io), [tokei.rs](https://github.com/XAMPPRocky/tokei), [pepy.tech](https://github.com/psincraian/pepy)
+
+    Used modules: customtkinter, Pillow
+    
+    Used services for README statistics: [shields.io](https://img.shields.io), [tokei.rs](https://github.com/XAMPPRocky/tokei), [pepy.tech](https://github.com/psincraian/pepy)
