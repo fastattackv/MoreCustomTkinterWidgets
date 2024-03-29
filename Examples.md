@@ -64,6 +64,28 @@ And this code produces the following result (in a TopLevel):
 
 ---
 
+### BetterCTkImage
+
+```python
+import customtkinter as ctk
+import MoreCustomTkinterWidgets as mctk
+
+win = ctk.CTk()
+win.title("MoreCustomTkinterWidgets examples !")
+win.geometry("400x300")
+
+image = mctk.BetterCTkImage(light_image="duck_image.png", size=(200, 200), rounded_corner_radius=50)
+label = ctk.CTkLabel(win, text="", image=image)
+label.pack()
+
+win.mainloop()
+```
+This code produces the following result:
+
+![BetterCTkImage example](Example%20files/BetterCTkImage_example.png)
+
+---
+
 ### Selector
 
 ```python

@@ -4,6 +4,7 @@ from .Message import Message, showinfo, showwarning, showerror
 from .FileExplorer import FileExplorer, Filedialog, askfile, askdir
 from .Selector import Selector
 from .SmoothFrame import SmoothFrame, get_coordinates_from_grid
+from .BetterCTkImage import BetterCTkImage
 
 
-_version = "1.0.0"
+_version = "2.0.0"

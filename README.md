@@ -40,6 +40,11 @@ It also comes with a class to ask for a file in a TopLevel (FileDialog).
 
 The FileDialog class comes with prebuilt functions to ask for files more easily: askdir, askfile
 
+### BetterCTkImage
+This class is used like CTkImage, but you can round the images corners !
+
+You can configure the radius of corner rounding by using `BetterCTkImage.configure()` and the image will update automatically everywhere it is used.
+
 ### Selector
 This class is used to select values in a list.
 
