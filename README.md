@@ -40,6 +40,11 @@ It also comes with a class to ask for a file in a TopLevel (FileDialog).
 
 The FileDialog class comes with prebuilt functions to ask for files more easily: askdir, askfile
 
+### AnimatedImage
+This class is used like `CTkImage` but allows to run an animation if an image sequence (FLI/FLC, GIF) was given.
+
+You can start the animation, and it will run until you call the method to stop it, or you can run it for a given time.
+
 ### BetterCTkImage
 This class is used like CTkImage, but you can round the images corners !
 
