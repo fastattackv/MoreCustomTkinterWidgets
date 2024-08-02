@@ -57,15 +57,40 @@ import MoreCustomTkinterWidgets as mctk
 
 selected_path = mctk.askfile("Title")
 ```
-
 And this code produces the following result (in a TopLevel):
 
 ![FileDialog example](Example%20files/FileDialog_example.png)
 
 ---
 
+### AnimatedImage
+
+The `AnimatedImage` class allows to easily use animated images (like gifs).
+```python
+import customtkinter as ctk
+import MoreCustomTkinterWidgets as mctk
+
+win = ctk.CTk()
+win.title("MoreCustomTkinterWidgets examples !")
+win.geometry("400x300")
+
+image = mctk.AnimatedImage("loading.gif", size=(100, 100))
+label = ctk.CTkLabel(win, text="", image=image)
+label.pack()
+
+image.start_animation()
+
+win.mainloop()
+```
+This code produces the following result:
+
+![AnimatedImage example](Example%20files/AnimatedImage_example.gif)
+
+---
+
 ### BetterCTkImage
 
+The `BetterCTkImage` class allows to round the corners of a given image.
 ```python
 import customtkinter as ctk
 import MoreCustomTkinterWidgets as mctk
@@ -88,6 +113,7 @@ This code produces the following result:
 
 ### Selector
 
+The `Selector` class allows to easily create a list of checkboxes to ask the user to select one or multiple choices. 
 ```python
 import customtkinter as ctk
 import MoreCustomTkinterWidgets as mctk

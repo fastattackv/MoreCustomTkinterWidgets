@@ -5,6 +5,7 @@ from .FileExplorer import FileExplorer, Filedialog, askfile, askdir
 from .Selector import Selector
 from .SmoothFrame import SmoothFrame, get_coordinates_from_grid
 from .BetterCTkImage import BetterCTkImage
+from .AnimatedImage import AnimatedImage
 
 
-_version = "2.0.0"
+_version = "3.0.0"

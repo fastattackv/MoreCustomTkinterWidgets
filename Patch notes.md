@@ -1,6 +1,15 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v3.0.0
+02/08/2024
+
+Novelties:
+- New utility class: `AnimatedImage`
+  - Used like `CTkImage` but allows to run an animation if an image sequence (FLI/FLC, GIF) was given.
+  - You can start the animation, and it will run until you call the method to stop it or you can run it for a given time.
+
+
 ## v2.0.0
 29/03/2024
 
