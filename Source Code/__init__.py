@@ -8,4 +8,4 @@ from .BetterCTkImage import BetterCTkImage
 from .AnimatedImage import AnimatedImage
 
 
-_version = "3.0.0"
+_version = "3.0.1"

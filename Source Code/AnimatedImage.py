@@ -136,16 +136,3 @@ class AnimatedImage(ctk.CTkImage):
             self._dark_image.seek(frame_index)
         for callback in self._configure_callback_list:
             callback()
-
-
-win = ctk.CTk()
-win.title("MoreCustomTkinterWidgets examples !")
-win.geometry("400x300")
-
-image = AnimatedImage(r"C:\Users\fastattack\Desktop\loading.gif", size=(100, 100))
-label = ctk.CTkLabel(win, text="", image=image)
-label.pack()
-
-image.start_animation()
-
-win.mainloop()
