@@ -1,6 +1,13 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v3.0.1
+23/08/2024
+
+Corrections:
+- `AnimatedImage`: removed the test code (prevented the entire module from being used)
+
+
 ## v3.0.0
 02/08/2024
 
@@ -36,7 +43,7 @@ Novelties:
 16/03/2024
 
 Corrections:
-- Selector: args and kwargs can now be passed to the super CTkFrame class
+- `Selector`: args and kwargs can now be passed to the super CTkFrame class
 
 
 ## v1.0.0
