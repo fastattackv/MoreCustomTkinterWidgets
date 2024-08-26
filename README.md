@@ -45,6 +45,9 @@ This class is used like `CTkImage` but allows to run an animation if an image se
 
 You can start the animation, and it will run until you call the method to stop it, or you can run it for a given time.
 
+### Separator
+This widget is used just like the separator in classic tkinter: it allows to separate other widgets more clearly (draws a line to separate widgets).
+
 ### BetterCTkImage
 This class is used like CTkImage, but you can round the images corners !
 

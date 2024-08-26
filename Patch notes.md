@@ -1,6 +1,22 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v4.0.1
+26/08/2024
+
+Corrections:
+- `Separator`: removed the test code (prevented the entire module from being used)
+
+
+## v4.0.0
+26/08/2024
+
+Novelties:
+- New widget: `Separator`
+  - Used just like the separator in classic tkinter, this widget allows to separate other widgets more clearly (draws a line to separate widgets).
+  - For now the separator cannot expand by itself using `Separator.pack(expand=True, fill="both")` or `Separator.grid(sticky="nswe")`, you have to enter the size of the separator manually.
+
+
 ## v3.0.1
 23/08/2024
 

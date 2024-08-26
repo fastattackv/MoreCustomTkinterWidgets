@@ -88,6 +88,34 @@ This code produces the following result:
 
 ---
 
+### Separator
+
+The `Separator` widget allows to clearly separate widgets.
+```python
+import customtkinter as ctk
+import MoreCustomTkinterWidgets as mctk
+
+win = ctk.CTk()
+win.title("MoreCustomTkinterWidgets examples !")
+win.geometry("300x200")
+
+b1 = ctk.CTkButton(win, text="First button")
+b1.grid(row=0, column=0)
+
+sep = mctk.Separator(win, length=150, orientation="vertical")
+sep.grid(row=0, column=1, padx=8)
+
+b2 = ctk.CTkButton(win, text="Second Button")
+b2.grid(row=0, column=2)
+
+win.mainloop()
+```
+This code produces the following result:
+
+![Separator example](Example%20files/Separator_example.png)
+
+---
+
 ### BetterCTkImage
 
 The `BetterCTkImage` class allows to round the corners of a given image.

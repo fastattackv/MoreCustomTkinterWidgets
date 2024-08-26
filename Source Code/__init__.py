@@ -6,6 +6,7 @@ from .Selector import Selector
 from .SmoothFrame import SmoothFrame, get_coordinates_from_grid
 from .BetterCTkImage import BetterCTkImage
 from .AnimatedImage import AnimatedImage
+from .Separator import Separator
 
 
-_version = "3.0.1"
+_version = "4.0.1"
