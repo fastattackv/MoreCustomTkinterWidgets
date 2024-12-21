@@ -21,8 +21,6 @@ See [^1] for the mentions.
 ## How to install
 To install the package, you should use pip. Install the package with the following command: `pip install MoreCustomTkinterWidgets`
 
-If you have an issue installing the module or if you find a bug while using it, please report it in the [discord server](https://discord.gg/pHPkkpXhUV).
-
 ## Widgets
 
 [![Examples](https://img.shields.io/badge/Examples_for_all_widgets-red)](Examples.md)

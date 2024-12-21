@@ -1,6 +1,14 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v4.1.0
+21/12/2024
+
+Novelties:
+- Selector:
+  - New functionnality: the search bar. Allows to easily narrow the search of an item.
+
+
 ## v4.0.1
 26/08/2024
 

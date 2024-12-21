@@ -141,7 +141,8 @@ This code produces the following result:
 
 ### Selector
 
-The `Selector` class allows to easily create a list of checkboxes to ask the user to select one or multiple choices. 
+The `Selector` class allows to easily create a list of checkboxes to ask the user to select one or multiple choices.
+The selector contains a searchbar to easily narrow the search of items for the user.
 ```python
 import customtkinter as ctk
 import MoreCustomTkinterWidgets as mctk
@@ -150,7 +151,7 @@ win = ctk.CTk()
 win.title("MoreCustomTkinterWidgets examples !")
 win.geometry("500x500")
 
-selector = mctk.Selector(win, ["item1", "item2", "item3"])
+selector = mctk.Selector(win, ["a", "b", "c", "d", "e", "f", "g", "h", "j", "i", "k", "l", "m", "n"])
 selector.pack()
 
 win.mainloop()
