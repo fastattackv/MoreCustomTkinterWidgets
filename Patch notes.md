@@ -1,6 +1,13 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v4.1.2
+26/03/2025
+
+Corrections:
+- Selector
+  - Corrected the `Selector.get_selections()` method (it returned widgets instead of their names)
+
 ## v4.1.1
 26/03/2025
 

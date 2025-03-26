@@ -103,4 +103,4 @@ class Selector(ctk.CTkFrame):
 
         :return: selected items, empty list if none were selected
         """
-        return [self.checkboxes[index] for index in self.selected_indexes]
+        return [self.checkboxes[index].cget("text") for index in self.selected_indexes]
