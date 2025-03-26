@@ -9,5 +9,5 @@ from .AnimatedImage import AnimatedImage
 from .Separator import Separator
 
 
-_version = "4.1.0"
-__version__ = "4.1.0"
+_version = "4.1.1"
+__version__ = "4.1.1"

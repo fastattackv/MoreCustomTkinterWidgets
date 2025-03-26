@@ -84,7 +84,7 @@ class Selector(ctk.CTkFrame):
 
                 # create new ones
                 for index in range(len(items)):
-                    self.checkboxes.append(ctk.CTkCheckBox(self, text=items[index], command=lambda a=index: self._selection(a)))
+                    self.checkboxes.append(ctk.CTkCheckBox(self.checkboxes_frame, text=items[index], command=lambda a=index: self._selection(a)))
                 self._search_modified()
             else:
                 raise ValueError("There is two times or more the same item in the given items list")

@@ -1,6 +1,14 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v4.1.1
+26/03/2025
+
+Corrections:
+- Selector
+  - could not configure the items in the selector using the `Selector.configure_selector()` method.
+
+
 ## v4.1.0
 21/12/2024
 
