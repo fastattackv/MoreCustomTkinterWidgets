@@ -7,7 +7,8 @@ from .SmoothFrame import SmoothFrame, get_coordinates_from_grid
 from .BetterCTkImage import BetterCTkImage
 from .AnimatedImage import AnimatedImage
 from .Separator import Separator
+from .DatePicker import Date, DateSelector, DateSelectorButton
 
 
-_version = "4.1.2"
-__version__ = "4.1.2"
+_version = "5.0.0"
+__version__ = "5.0.0"

@@ -65,7 +65,7 @@ And this code produces the following result (in a TopLevel):
 
 ### AnimatedImage
 
-The `AnimatedImage` class allows to easily use animated images (like gifs).
+The `AnimatedImage` class allows to easily use animated images (like .gif).
 ```python
 import customtkinter as ctk
 import MoreCustomTkinterWidgets as mctk
@@ -85,6 +85,28 @@ win.mainloop()
 This code produces the following result:
 
 ![AnimatedImage example](Example%20files/AnimatedImage_example.gif)
+
+---
+
+### DateSelector
+
+The `DateSelector` and the `DateSelectorButton` classes allow to easily create widgets to ask the user to select a date.
+```python
+import customtkinter as ctk
+import MoreCustomTkinterWidgets as mctk
+
+win = ctk.CTk()
+win.title("MoreCustomTkinterWidgets examples !")
+win.geometry("500x500")
+
+date_selector = mctk.DateSelector(win, default_date=mctk.Date(1, 1, 2000, date_format="dmy"))
+date_selector.pack()
+
+win.mainloop()
+```
+This code produces the following result:
+
+![DateSelector example](Example%20files/DateSelector_example.png)
 
 ---
 

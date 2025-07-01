@@ -1,6 +1,14 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v5.0.0
+01/07/2025
+
+Novelties:
+- New widgets: `DateSelector` and `DateSelectorButton`
+  - Used to ask the user to select a date with an easy interface
+
+
 ## v4.1.2
 26/03/2025
 

@@ -16,8 +16,6 @@ This module contains more, easy to use, customtkinter widgets.
 
 This file will present you the best ones.
 
-See [^1] for the mentions.
-
 ## How to install
 To install the package, you should use pip. Install the package with the following command: `pip install MoreCustomTkinterWidgets`
 
@@ -45,6 +43,9 @@ This class is used like `CTkImage` but allows to run an animation if an image se
 
 You can start the animation, and it will run until you call the method to stop it, or you can run it for a given time.
 
+### DateSelector
+These classes allow to easily create widgets to ask the user to select a date.
+
 ### Separator
 This widget is used just like the separator in classic tkinter: it allows to separate other widgets more clearly (draws a line to separate widgets).
 
@@ -71,8 +72,18 @@ It comes with prebuilt functions to use it more easily: showinfo, showwarning, s
 These functions existed in normal tkinter but didn't go in customtkinter.
 
 
-[^1]: Mentions:
+## Mentions
 
-    Used modules: customtkinter, Pillow
-    
-    Used services for README statistics: [shields.io](https://img.shields.io), [tokei.rs](https://github.com/XAMPPRocky/tokei), [pepy.tech](https://github.com/psincraian/pepy)
+The icons used in the module were collected on flaticon: [Flaticon](https://www.flaticon.com/)
+
+Mentions to the artists of these icons:
+
+- New folder icon: Mehwish: [Flaticon](https://www.flaticon.com/free-icon/folder_3307447) & [Flaticon](https://www.flaticon.com/free-icon/folder_3360755)
+- Folder icon: Icongeek26: [Flaticon](https://www.flaticon.com/free-icon/folder_1250635) & [Flaticon](https://www.flaticon.com/free-icon/folder_1250945)
+- File icon: Freepik: [Flaticon](https://www.flaticon.com/free-icon/document_2258853) & [Flaticon](https://www.flaticon.com/free-icon/document_2258843)
+- Left arrow (back): Gravisio: [Flaticon](https://www.flaticon.com/free-icon/back_11502464) & [Flaticon](https://www.flaticon.com/free-icon/back_11502534)
+- Right arrow (forward): Gravisio: [Flaticon](https://www.flaticon.com/free-icon/forward_11502458) & [Flaticon](https://www.flaticon.com/free-icon/forward_11502527)
+
+Used modules: customtkinter, Pillow
+
+Used services for README statistics: [shields.io](https://img.shields.io), [tokei.rs](https://github.com/XAMPPRocky/tokei), [pepy.tech](https://github.com/psincraian/pepy)
