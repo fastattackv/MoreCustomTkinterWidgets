@@ -1,6 +1,17 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v5.1.0
+03/07/2025
+
+Novelties:
+- Separator
+  - Allowed separator to expand automatically using the fill (if using pack) or sticky (if using grid) parameters
+
+Corrections:
+- Removed test code from the DateSelector file (again...)
+
+
 ## v5.0.0
 01/07/2025
 

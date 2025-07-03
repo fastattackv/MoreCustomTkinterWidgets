@@ -33,11 +33,11 @@ class Separator(ctk.CTkBaseClass):
         self._orientation = orientation
 
         self._canvas = ctk.CTkCanvas(self, highlightthickness=0)
-        self._canvas.grid(row=0, column=0, sticky="e")
+        self._canvas.place(x=0, y=0, relwidth=1, relheight=1)
         self._canvas.configure(bg=self._apply_appearance_mode(self._detect_color_of_master()), width=self._apply_widget_scaling(width), height=self._apply_widget_scaling(height))
         self._draw_engine = ctk.DrawEngine(self._canvas)
 
-        self._draw()
+        self._draw(no_color_updates=True)
 
     def _set_scaling(self, *args, **kwargs):
         super()._set_scaling(*args, **kwargs)

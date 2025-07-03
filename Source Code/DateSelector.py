@@ -472,14 +472,3 @@ class DateSelectorButton(ctk.CTkButton):
 
     def get(self) -> Date:
         return self._date
-
-
-
-win = ctk.CTk()
-win.title("MoreCustomTkinterWidgets examples !")
-win.geometry("500x500")
-
-date_selector = DateSelector(win, default_date=Date(1, 1, 2000, date_format="dmy"))
-date_selector.pack()
-
-win.mainloop()
