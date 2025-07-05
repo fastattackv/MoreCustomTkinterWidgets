@@ -69,6 +69,14 @@ class FileExplorer(ctk.CTkFrame):
         # creating widget
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color,
                          background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
+        self.grid_propagate(False)
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=0)
+        self.grid_columnconfigure(3, weight=0)
+        self.grid_rowconfigure(0, weight=0)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=0)
 
         self.response_type = responsetype
         self.filetypes = filetypes
@@ -88,28 +96,28 @@ class FileExplorer(ctk.CTkFrame):
         self.folder_image = ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/folder_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/folder_dark.png")))
         self.file_image = ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/file_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/file_dark.png")))
 
-        self.canvas = ctk.CTkCanvas(self, width=width - 16, height=height - 54, highlightthickness=0)
+        self.canvas = ctk.CTkCanvas(self, highlightthickness=0)
         if fg_color == "transparent":
             self.canvas.configure(bg=self._apply_appearance_mode(self.cget("bg")))
         else:
             self.canvas.configure(bg=self._apply_appearance_mode(self.cget("fg_color")))
 
-        self.explorer_frame = ctk.CTkFrame(self.canvas, width=width - 16, height=height - 54, fg_color=fg_color)
+        self.explorer_frame = ctk.CTkFrame(self.canvas, fg_color=fg_color)
 
         self.back_button = ctk.CTkButton(self, image=ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/back_arrow_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/back_arrow_dark.png"))), text="", command=self._move_back, width=35)
-        self.path_entry = ctk.CTkEntry(self, textvariable=self.selected_path, width=width - 96)
+        self.path_entry = ctk.CTkEntry(self, textvariable=self.selected_path)
         self.create_dir_button = ctk.CTkButton(self, image=ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/new_folder_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/new_folder_dark.png"))), text="", command=self._create_directory, width=35)
-        self.y_scrollbar = ctk.CTkScrollbar(self, height=height - 38, command=self.canvas.yview)
-        self.x_scrollbar = ctk.CTkScrollbar(self, orientation="horizontal", width=width - 16, command=self.canvas.xview)
+        self.y_scrollbar = ctk.CTkScrollbar(self, command=self.canvas.yview)
+        self.x_scrollbar = ctk.CTkScrollbar(self, orientation="horizontal", command=self.canvas.xview)
         self.canvas.configure(yscrollcommand=self.y_scrollbar.set)
         self.after(100, lambda: self.canvas.configure(xscrollcommand=self.x_scrollbar.set))  # you have to bind the other scrollbar at least 50ms after the first one, idk why but it works
 
-        self.back_button.grid(row=0, column=0)
-        self.path_entry.grid(row=0, column=1, padx=5, pady=5)
-        self.create_dir_button.grid(row=0, column=2)
-        self.canvas.grid(row=1, column=0, columnspan=3)
-        self.y_scrollbar.grid(row=1, column=3, rowspan=2)
-        self.x_scrollbar.grid(row=2, column=0, columnspan=3)
+        self.back_button.grid(row=0, column=0, padx=3, pady=3, sticky="nw")
+        self.path_entry.grid(row=0, column=1, padx=3, pady=3, sticky="new")
+        self.create_dir_button.grid(row=0, column=2, columnspan=2, padx=3, pady=3, sticky="ne")
+        self.canvas.grid(row=1, column=0, columnspan=3, padx=3, pady=3, sticky="nsew")
+        self.y_scrollbar.grid(row=1, column=3, rowspan=2, sticky="nse")
+        self.x_scrollbar.grid(row=2, column=0, columnspan=3, sticky="sew")
 
         self.canvas.create_window((1, 1), window=self.explorer_frame, anchor="nw")
 
@@ -240,7 +248,7 @@ class FileExplorer(ctk.CTkFrame):
 
 class Filedialog(ctk.CTkToplevel):
     def __init__(self, responsetype: Literal["file", "directory"], title: str, filetypes: list[str] = None,
-                 initialdir: str = None, initialfile: str = None):
+                 initialdir: str = None, initialfile: str = None, geometry: str = "400x550"):
         """Creates a filedialog instance to ask for a file / directory
 
         :param responsetype: type of the selected response: "file" / "directory"
@@ -248,6 +256,7 @@ class Filedialog(ctk.CTkToplevel):
         :param filetypes: extension of the file to enter: ("text", ".txt"), None if the response should be a directory
         :param initialdir: initial directory to start the search from, None if initialfile is not None
         :param initialfile: initial file selected
+        :param geometry: initial geometry of the toplevel, default is "400x500"
         """
         self.path = None
 
@@ -257,18 +266,22 @@ class Filedialog(ctk.CTkToplevel):
         self.grab_set()  # make other windows not clickable
 
         self.title(title)
-        self.geometry("400x550")
-        self.resizable(False, False)
+        self.geometry(geometry)
 
         self.protocol("WM_DELETE_WINDOW", self._kill_event)
 
-        self.explorer = FileExplorer(self, responsetype, filetypes, initialdir, initialfile, width=400, height=512)
+        self.explorer = FileExplorer(self, responsetype, filetypes, initialdir, initialfile)
         self.ok_button = ctk.CTkButton(self, text="Ok", command=self._ok_event)
         self.cancel_button = ctk.CTkButton(self, text="Cancel", command=self._cancel_event)
 
-        self.explorer.grid(row=1, column=0, columnspan=2)
-        self.ok_button.grid(row=2, column=0, padx=5, pady=5)
-        self.cancel_button.grid(row=2, column=1, padx=5, pady=5)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)
+
+        self.explorer.grid(row=0, column=0, columnspan=2, sticky="nsew")
+        self.ok_button.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+        self.cancel_button.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
 
         self.bind("<Return>", self._ok_event)
         self.bind("<Escape>", self._cancel_event)

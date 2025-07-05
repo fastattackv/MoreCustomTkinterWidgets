@@ -1,6 +1,14 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v5.2.0
+05/07/2025
+
+Novelties:
+- FileExplorer
+  - Allowed separator to expand automatically using the fill (if using pack) or sticky (if using grid) parameters
+
+
 ## v5.1.0
 03/07/2025
 
