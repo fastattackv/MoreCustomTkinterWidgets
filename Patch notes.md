@@ -1,6 +1,21 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v5.3.0
+09/09/2026
+
+Novelties:
+- Selector
+  - Button to remove all text in search bar
+  - Boxes aligned on the left
+  - Added padding inside the widget
+
+Corrections:
+- Selector
+  - Changed configure_selector method to configure to make only 1 method for reconfiguring the widget
+  - Renamed items to names_list
+
+
 ## v5.2.0
 05/07/2025
 

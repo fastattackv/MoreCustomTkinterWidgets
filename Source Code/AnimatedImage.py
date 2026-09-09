@@ -95,11 +95,14 @@ class AnimatedImage(ctk.CTkImage):
         return self._currently_animating
 
     def start_animation(self):
-        """ Starts the animation loop """
-        self._currently_animating = True
-        time_between_2_frames = self._light_image.info["duration"] if self._light_image is not None else self._dark_image.info["duration"]
-        self._time_between_frames = int(time_between_2_frames * self._speed_multiplier)
-        self._next_frame()
+        """ Starts the animation loop. HAS TO BE CALLED AFTER THE IMAGE IS USED """
+        if self._configure_callback_list:
+            self._currently_animating = True
+            time_between_2_frames = self._light_image.info["duration"] if self._light_image is not None else self._dark_image.info["duration"]
+            self._time_between_frames = int(time_between_2_frames * self._speed_multiplier)
+            self._next_frame()
+        else:
+            raise RuntimeError("Tried to start the animation before using the image in a widget")
 
     def stop_animation(self):
         """ Stops the animation loop """
@@ -112,18 +115,21 @@ class AnimatedImage(ctk.CTkImage):
             raise RuntimeError("Tried to stop the animation but it was not already running")
 
     def start_animation_for(self, ms: int, reset_after_complete=False):
-        """Starts the animation and stops automatically after the given time
+        """Starts the animation and stops automatically after the given time. HAS TO BE CALLED AFTER THE IMAGE IS USED
 
         :param ms: time to run the animation for (in ms)
         :param reset_after_complete: if set to True: resets to the first frame of the animation when the animation stops
         """
-        try:
-            self._configure_callback_list[0].__self__.after(ms, self.stop_animation)
-        except AttributeError:
-            pass
+        if self._configure_callback_list:
+            try:
+                self._configure_callback_list[0].__self__.after(ms, self.stop_animation)
+            except AttributeError:
+                pass
+            else:
+                self.start_animation()
+                self.reset_after_complete = reset_after_complete
         else:
-            self.start_animation()
-            self.reset_after_complete = reset_after_complete
+            raise RuntimeError("Tried to start the animation before using the image in a widget")
 
     def set_to_frame(self, frame_index: int):
         """Sets the animation to the given frame
