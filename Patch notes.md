@@ -1,6 +1,19 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v5.5.0
+11/09/2026
+
+Novelties:
+- DateSelector
+  - Made the widget expandable
+  - Added the possibility to put an interval in which the user can select dates but not outside
+
+Corrections:
+- DateSelector:
+  - Made the year entry at the top usable by adding a validation button
+
+
 ## v5.4.0
 11/09/2026
 

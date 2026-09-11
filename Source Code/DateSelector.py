@@ -27,7 +27,7 @@ class Date:
     def __init__(self, day: int, month: int, year: int, hour: int = None, minute: int = None, date_format: Literal["dmy", "mdy", "ymd"] = "dmy"):
         """Class to verify if a date is correct and store it (minute, hour, day, month, year)
 
-        :param day: day of the event (takes into account the rules for the leap years)
+        :param day: day of the event (takes into account the rules for the leap years) (if set to 0, it will take the last possible day of the month)
         :param month: month of the event
         :param year: year of the event
         :param hour: optional: hour of the event
@@ -204,6 +204,8 @@ class DateSelector(ctk.CTkFrame):
 
                  week_starts_with: Literal["mon", "tue", "wed", "thu", "fri", "sat", "sun"] = "mon",
                  default_date: Date = None,
+                 min_date: Date = None,
+                 max_date: Date = None,
                  callback: Callable[[], None] = None,
                  button_hover_color: Optional[Union[str, Tuple[str, str]]] = None,
                  **kwargs):
@@ -211,6 +213,8 @@ class DateSelector(ctk.CTkFrame):
 
         :param week_starts_with: day the week starts with, can be: "mon", "tue", "wed", "thu", "fri", "sat" or "sun"
         :param default_date: date selected by default, if None is given, the default date is today
+        :param min_date: minimal date the user can select (also prevents the months before this date to be shown)
+        :param max_date: maximal date the user can select (also prevents the months after this date to be shown)
         :param callback: function to call when a new date is selected
         """
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
@@ -228,12 +232,25 @@ class DateSelector(ctk.CTkFrame):
         self.months_list = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
 
         if isinstance(default_date, Date):
-            self.date = default_date
+            self.date = Date(default_date.day, default_date.month, default_date.year)  # make a copy of the date, otherwise weird things can happen if you reuse the same date
         elif default_date is None:
             date = datetime.datetime.now()
             self.date = Date(date.day, date.month, date.year)
         else:
             raise TypeError(f"The given default_date argument is not a Date instance: {type(default_date)}")
+
+        if isinstance(min_date, Date) or min_date is None:
+            self.min_date = min_date
+        else:
+            raise TypeError(f"The given min_date is not a Date instance: {type(min_date)}")
+
+        if isinstance(max_date, Date) or max_date is None:
+            self.max_date = max_date
+        else:
+            raise TypeError(f"The given max_date is not a Date instance: {type(max_date)}")
+
+        if (min_date is not None and max_date is not None) and min_date > max_date:
+            raise ValueError(f"The minimum date cannot be greater than the maximum date: {min_date}, {max_date}")
 
         if callable(callback) or callback is None:
             self._callback = callback
@@ -244,25 +261,35 @@ class DateSelector(ctk.CTkFrame):
         self.forward_arrow_image = ctk.CTkImage(Image.open(os.path.join(os.path.dirname(__file__), "Images/forward_arrow_light.png")), Image.open(os.path.join(os.path.dirname(__file__), "Images/forward_arrow_dark.png")))
 
         self.top_frame = ctk.CTkFrame(self, fg_color=self._fg_color)
+        self.top_frame.grid_columnconfigure([0, 2, 3], weight=0)
+        self.top_frame.grid_columnconfigure(1, weight=1)
+        self.top_frame.grid_rowconfigure([0, 1], weight=1)
         self.back_button = ctk.CTkButton(self.top_frame, text="", image=self.back_arrow_image, command=self._back, fg_color=self._fg_color, border_color=self._border_color, border_width=2, width=30)
         self.forward_button = ctk.CTkButton(self.top_frame, text="", image=self.forward_arrow_image, command=self._forward, fg_color=self._fg_color, border_color=self._border_color, border_width=2, width=30)
-        self.year_var = ctk.IntVar(self.top_frame, self.date.year)
-        self.year_var.trace_add("write", self._year_changed)
-        self.year_entry = ctk.CTkEntry(self.top_frame, textvariable=self.year_var, width=100, justify="center")
+        self.year_entry = ctk.CTkEntry(self.top_frame, justify="center")
+        self.year_entry.set(str(self.date.year))
+        self.year_button = ctk.CTkButton(self.top_frame, text="✔", fg_color=self._fg_color, border_color=self._border_color, border_width=2, width=20, command=self._year_validation)  # seems to work with an emoji, but it may not be a good idea, we'll see if it breaks
         self.month_label = ctk.CTkLabel(self.top_frame, text=self.months_list[self.date.month - 1])
         self.back_button.grid(row=0, column=0, padx=2, pady=2)
-        self.year_entry.grid(row=0, column=1, padx=2, pady=2)
-        self.forward_button.grid(row=0, column=2, padx=2, pady=2)
-        self.month_label.grid(row=1, column=0, columnspan=3, padx=2, pady=2)
+        self.year_entry.grid(row=0, column=1, padx=2, pady=2, sticky="nsew")
+        self.year_button.grid(row=0, column=2, padx=2, pady=2)
+        self.forward_button.grid(row=0, column=3, padx=2, pady=2)
+        self.month_label.grid(row=1, column=0, columnspan=4, padx=2, pady=2)
 
         self.days_frame = ctk.CTkFrame(self, fg_color=self._fg_color)
+        self.days_frame.grid_rowconfigure([0, 1, 2, 3, 4, 5, 6], weight=1)
+        self.days_frame.grid_columnconfigure([0, 1, 2, 3, 4, 5, 6], weight=1)
+        self.days_frame.grid_propagate(False)
         self.week_days_labels_dict = {day: ctk.CTkLabel(self.days_frame, text=day) for day in ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]}
         self.regrid_weekdays()
-        self.days_buttons_list = [ctk.CTkButton(self.days_frame, text=str(day), fg_color=self._fg_color, hover_color=self._button_hover_color, width=25, command=lambda x=day: self._selected_day(x)) for day in range(1, 32)]
+        self.days_buttons_list = [ctk.CTkButton(self.days_frame, text=str(day), fg_color=self._fg_color, hover_color=self._button_hover_color, command=lambda x=day: self._selected_day(x)) for day in range(1, 32)]
         self.previous_selected_day_index = self.date.day - 1
 
-        self.top_frame.grid(row=0, column=0, padx=1, pady=1)
-        self.days_frame.grid(row=1, column=0, padx=1, pady=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=0)
+        self.grid_rowconfigure(1, weight=1)
+        self.top_frame.grid(row=0, column=0, padx=3, pady=3, sticky="nsew")
+        self.days_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
         self._actualize_days()
 
     def configure(self, require_redraw=False, **kwargs):
@@ -292,6 +319,23 @@ class DateSelector(ctk.CTkFrame):
             else:
                 raise TypeError(f"The given week_starts_with argument is not a string: {type(week_starts_with)}")
 
+        if "min_date" in kwargs:
+            min_date = kwargs.pop("min_date")
+            if isinstance(min_date, Date) or min_date is None:
+                self.min_date = min_date
+            else:
+                raise TypeError(f"The given min_date is not a Date instance: {type(min_date)}")
+
+        if "max_date" in kwargs:
+            max_date = kwargs.pop("max_date")
+            if isinstance(max_date, Date) or max_date is None:
+                self.max_date = max_date
+            else:
+                raise TypeError(f"The given max_date is not a Date instance: {type(max_date)}")
+
+        if (self.min_date is not None and self.max_date is not None) and self.min_date > self.max_date:
+            raise ValueError(f"The minimum date cannot be greater than the maximum date: {self.min_date}, {self.max_date}")
+
         if "callback" in kwargs:
             callback = kwargs.pop("callback")
             if callable(callback) or callback is None:
@@ -308,10 +352,14 @@ class DateSelector(ctk.CTkFrame):
 
     def _back(self):
         """ Called when the back button is pressed """
+        if self.min_date is not None:
+            if self.date.month <= self.min_date.month and self.date.year <= self.min_date.year:  # prevents going back further than the minimum date
+                return
+
         if self.date.month == 1:
             self.date.month = 12
             self.date.year -= 1
-            self.year_var.set(self.date.year)
+            self.year_entry.set(str(self.date.year))
         else:
             self.date.month -= 1
         self.month_label.configure(text=self.months_list[self.date.month - 1])
@@ -320,23 +368,43 @@ class DateSelector(ctk.CTkFrame):
 
     def _forward(self):
         """ Called when the forward button is pressed """
+        if self.max_date is not None:
+            if self.date.month >= self.max_date.month and self.date.year >= self.max_date.year:  # prevents going further than the maximum date
+                return
+
         if self.date.month == 12:
             self.date.month = 1
             self.date.year += 1
-            self.year_var.set(self.date.year)
+            self.year_entry.set(str(self.date.year))
         else:
             self.date.month += 1
         self.month_label.configure(text=self.months_list[self.date.month - 1])
         self._check_if_day_is_correct()
         self._actualize_days()
 
-    def _year_changed(self, *args):
-        """ Called when the year is changed """
+    def _year_validation(self):
+        """ Called when the year validation button is clicked """
+        year_input = self.year_entry.get()
+        if not year_input.isnumeric():
+            self.year_entry.set(str(self.date.year))
+            return
+        year_input = int(year_input)
+
+        if (self.min_date is not None and self.min_date > Date(self.date.day, self.date.month, year_input)) or (self.max_date is not None and self.max_date < Date(self.date.day, self.date.month, year_input)):
+            self.year_entry.set(str(self.date.year))
+            return
+
+        self.date.year = year_input
         self._check_if_day_is_correct()
         self._actualize_days()
 
     def _selected_day(self, day: int):
         """ Called when a day button is pressed """
+        if self.min_date is not None and Date(day, self.date.month, self.date.year) < self.min_date:
+            return
+        if self.max_date is not None and Date(day, self.date.month, self.date.year) > self.max_date:
+            return
+
         self.date.day = day
         self._actualize_days()
 
@@ -345,17 +413,40 @@ class DateSelector(ctk.CTkFrame):
         temp_date = Date(1, self.date.month, self.date.year)
         row = 1
         column = week_days_list_when_week_starts_with(self.week_starts_with).index(temp_date.weekday())
+
         for day in range(self.date.length_of_current_month()):
-            self.days_buttons_list[day].grid(row=row, column=column)
+            self.days_buttons_list[day].grid(row=row, column=column, sticky="nsew")
             column += 1
             if column > 6:
                 column = 0
                 row += 1
         for day in range(self.date.length_of_current_month(), 31):
             self.days_buttons_list[day].grid_forget()
+
+        if self.min_date is not None and self.min_date > Date(1, self.date.month, self.date.year):
+            for day in range(self.date.length_of_current_month()):
+                current = Date(day + 1, self.date.month, self.date.year)
+                if current < self.min_date:
+                    self.days_buttons_list[day].configure(state="disabled")
+                else:
+                    self.days_buttons_list[day].configure(state="normal")
+
+        if self.max_date is not None and self.max_date < Date(self.date.length_of_current_month(), self.date.month, self.date.year):
+            for day in range(self.date.length_of_current_month()):
+                current = Date(day + 1, self.date.month, self.date.year)
+                if current > self.max_date:
+                    self.days_buttons_list[day].configure(state="disabled")
+                else:
+                    self.days_buttons_list[day].configure(state="normal")
+
         self.days_buttons_list[self.previous_selected_day_index].configure(fg_color=self._fg_color)
+        if self.min_date is not None and self.date < self.min_date:
+            self.date.day = self.min_date.day
+        if self.max_date is not None and self.date > self.max_date:
+            self.date.day = self.max_date.day
         self.days_buttons_list[self.date.day - 1].configure(fg_color=self._button_hover_color)
         self.previous_selected_day_index = self.date.day - 1
+
         if self._callback is not None:
             self._callback()
 
@@ -378,6 +469,8 @@ class DateSelectorButton(ctk.CTkButton):
                  callback: Union[Callable[[], None], None] = None,  # called when the selected date is changed
                  restrained_to_master: bool = False,
                  default_date: Date | None = None,
+                 min_date: Date = None,
+                 max_date: Date = None,
 
                  width: int = 140,
                  height: int = 28,
@@ -410,15 +503,15 @@ class DateSelectorButton(ctk.CTkButton):
         :param callback: function to call when a new date is selected
         :param restrained_to_master: if set to True, the popup frame will not be able to get out of the direct master of the widget, otherwise the popup menu will be able to expand in the whole window
         :param default_date: date selected by default
+        :param min_date: minimal date the user can select (also prevents the months before this date to be shown)
+        :param max_date: maximal date the user can select (also prevents the months after this date to be shown)
         """
         super().__init__(master, width, height, corner_radius, border_width, border_spacing,
                          bg_color, fg_color, hover_color, border_color, text_color, text_color_disabled,
                          background_corner_colors, round_width_to_even_numbers, round_height_to_even_numbers,
                          text, font, textvariable, image, state, hover, self._on_clicked, compound, anchor, **kwargs)
         if callback is not None:
-            if callable(callback):
-                self._callback = callback
-            else:
+            if not callable(callback):
                 raise TypeError(f"The given callback is not callable: {callback}")
 
         if type(restrained_to_master) is bool:
@@ -426,13 +519,20 @@ class DateSelectorButton(ctk.CTkButton):
         else:
             raise TypeError(f"The given restrained_to_master argument is not a boolean: {type(restrained_to_master)}")
 
-        if isinstance(default_date, Date):
-            self._date = default_date
-        elif default_date is None:
+        if default_date is None:
             date = datetime.datetime.now()
-            self._date = Date(date.day, date.month, date.year)
-        else:
+            default_date = Date(date.day, date.month, date.year)
+        elif not isinstance(default_date, Date):
             raise TypeError(f"The given default_date argument is not a Date instance: {type(default_date)}")
+
+        if not isinstance(min_date, Date) and min_date is not None:
+            raise TypeError(f"The given min_date is not a Date instance: {type(min_date)}")
+
+        if not isinstance(max_date, Date) and max_date is not None:
+            raise TypeError(f"The given max_date is not a Date instance: {type(max_date)}")
+
+        if (min_date is not None and max_date is not None) and min_date > max_date:
+            raise ValueError(f"The minimum date cannot be greater than the maximum date: {min_date}, {max_date}")
 
         if restrained_to_master:
             self._popup_frame = ctk.CTkFrame(master)
@@ -440,7 +540,7 @@ class DateSelectorButton(ctk.CTkButton):
             while not isinstance(master, (tk.Tk, ctk.CTk, tk.Toplevel, ctk.CTkToplevel)):
                 master_name = master.winfo_parent()
                 master = master._nametowidget(master_name)
-            self._popup_frame = DateSelector(master)
+            self._popup_frame = DateSelector(master, callback=callback, default_date=default_date, min_date=min_date, max_date=max_date)
 
     def _on_clicked(self):
         """ Called when the button is clicked """
@@ -471,4 +571,4 @@ class DateSelectorButton(ctk.CTkButton):
                 self._popup_frame.place(x=new_x, y=new_y)
 
     def get(self) -> Date:
-        return self._date
+        return self._popup_frame.date
