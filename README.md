@@ -1,5 +1,5 @@
 # MoreCustomTkinterWidgets
-By Fastattack, 2024-2025
+By Fastattack, 2024-2026
 
 [![Pypi](https://img.shields.io/pypi/v/MoreCustomTkinterWidgets?label=Pypi)](https://pypi.org/project/MoreCustomTkinterWidgets)
 [![GitHub - Total commits](https://img.shields.io/github/commit-activity/t/fastattackv/MoreCustomTkinterWidgets?label=Total%20GitHub%20commits&color=darkblue)](https://github.com/fastattackv/MoreCustomTkinterWidgets)

@@ -1,6 +1,14 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v5.4.0
+11/09/2026
+
+Novelties:
+- Selector
+  - New search mode: fuzzy: allows to search substrings instead of the exact string (previous search mode still exists as "exact")
+
+
 ## v5.3.0
 09/09/2026
 

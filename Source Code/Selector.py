@@ -3,12 +3,13 @@ from customtkinter import ThemeManager
 
 
 class Selector(ctk.CTkFrame):
-    def __init__(self, master, names_list: list[str], multiple_choices=True, *args, **kwargs):
+    def __init__(self, master, names_list: list[str], multiple_choices=True, search_mode: str="fuzzy", *args, **kwargs):
         """Selector widgets to select options in a list of options. Includes a search bar to find different elements faster.
 
         :param master: master window for the widget
         :param names_list: list of the possible options, they should all be different
         :param multiple_choices: Optional: if set to False, the user will be allowed to select only one item (default=True)
+        :param search_mode: Optional: if set to "exact": the search will only show the items that start with exactly the given string, if set to "fuzzy": the search will show items that contain the search as a substring (default="fuzzy")
         :param args: args for the CTkFrame widget
         :param kwargs: kwargs for the CTkFrame widget
         """
@@ -32,6 +33,13 @@ class Selector(ctk.CTkFrame):
         self.checkboxes = []
         self.selected_indexes = []
         self.multiple_choices = multiple_choices
+
+        if search_mode == "exact":
+            self.exact_search = True
+        elif search_mode == "fuzzy":
+            self.exact_search = False
+        else:
+            raise ValueError(f"The given search_mode is incorrect: {search_mode}")
 
         if len(set(names_list)) == len(names_list):  # not 2 times the same item
             for index in range(len(names_list)):
@@ -64,12 +72,13 @@ class Selector(ctk.CTkFrame):
         """ Internal method: modifies the search """
         value = self.search_var.get()
         row = 0
-        for x in range(len(self.checkboxes)):
-            if self.checkboxes[x].cget("text").startswith(value):
-                self.checkboxes[x].grid(row=row, column=0, pady=3, sticky="w")
+        for i in range(len(self.checkboxes)):
+            text = self.checkboxes[i].cget("text")
+            if (self.exact_search and text.startswith(value)) or (not self.exact_search and value in text.lower()):
+                self.checkboxes[i].grid(row=row, column=0, pady=3, sticky="w")
                 row += 1
             else:
-                self.checkboxes[x].grid_forget()
+                self.checkboxes[i].grid_forget()
         self._reset_scroll()
 
     def _empty_search(self):
