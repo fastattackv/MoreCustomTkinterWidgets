@@ -61,7 +61,8 @@ class Date:
 
     def __str__(self):
         value = ""
-        for i in range(len(self.format)):
+        i = 0
+        while i < len(self.format):
             if self.format[i] == "%":
                 if i + 1 < len(self.format):
                     if self.format[i+1] == "d":
@@ -172,6 +173,7 @@ class DateSelector(ctk.CTkFrame):
         :param default_date: date selected by default, if None is given, the default date is today
         :param min_date: minimal date the user can select (also prevents the months before this date to be shown)
         :param max_date: maximal date the user can select (also prevents the months after this date to be shown)
+        :param date_format: date format to be passed to the Date that can be obtained using DateSelector.get()
         :param callback: function to call when a new date is selected
         """
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)

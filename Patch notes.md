@@ -1,6 +1,14 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v5.6.2
+12/09/2026
+
+Corrections:
+- DateSelector:
+  - New corrections for 5.5.0 (corrected `date_format` usage)
+
+
 ## v5.6.1
 12/09/2026
 
