@@ -10,5 +10,5 @@ from .Separator import Separator
 from .DateSelector import Date, DateSelector, DateSelectorButton
 
 
-_version = "5.6.0"
-__version__ = "5.6.0"
+_version = "5.6.1"
+__version__ = "5.6.1"

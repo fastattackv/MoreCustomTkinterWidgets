@@ -24,7 +24,7 @@ def week_days_list_when_week_starts_with(weekday: Literal["mon", "tue", "wed", "
 
 
 class Date:
-    def __init__(self, day: int, month: int, year: int, date_format: str = "dmy"):
+    def __init__(self, day: int, month: int, year: int, date_format: str = "%d/%m/%y"):
         """Class to verify if a date is correct and store it (minute, hour, day, month, year)
 
         :param day: day of the event (takes into account the rules for the leap years) (if set to 0, it will take the last possible day of the month)
@@ -68,12 +68,15 @@ class Date:
                         if self.day < 10:
                             value += "0"
                         value += str(self.day)
+                        i += 2
                     elif self.format[i+1] == "m":
                         if self.month < 10:
                             value += "0"
                         value += str(self.month)
+                        i += 2
                     elif self.format[i+1] == "y":
                         value += str(self.year)
+                        i += 2
                     else:
                         value += "%"
                         i += 1
@@ -83,6 +86,7 @@ class Date:
             else:
                 value += self.format[i]
                 i += 1
+        return value
 
     def __eq__(self, other):
         if isinstance(other, Date):
@@ -158,6 +162,7 @@ class DateSelector(ctk.CTkFrame):
                  default_date: Date = None,
                  min_date: Date = None,
                  max_date: Date = None,
+                 date_format: str = "%d/%m%y",
                  callback: Callable[[], None] = None,
                  button_hover_color: Optional[Union[str, Tuple[str, str]]] = None,
                  **kwargs):
@@ -184,10 +189,10 @@ class DateSelector(ctk.CTkFrame):
         self.months_list = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
 
         if isinstance(default_date, Date):
-            self.date = Date(default_date.day, default_date.month, default_date.year)  # make a copy of the date, otherwise weird things can happen if you reuse the same date
+            self.date = Date(default_date.day, default_date.month, default_date.year, date_format=date_format)  # make a copy of the date, otherwise weird things can happen if you reuse the same date
         elif default_date is None:
             date = datetime.datetime.now()
-            self.date = Date(date.day, date.month, date.year)
+            self.date = Date(date.day, date.month, date.year, date_format=date_format)
         else:
             raise TypeError(f"The given default_date argument is not a Date instance: {type(default_date)}")
 
@@ -423,6 +428,7 @@ class DateSelectorButton(ctk.CTkButton):
                  default_date: Date | None = None,
                  min_date: Date = None,
                  max_date: Date = None,
+                 date_format: str = "%d/%m%y",
 
                  width: int = 140,
                  height: int = 28,
@@ -473,7 +479,7 @@ class DateSelectorButton(ctk.CTkButton):
 
         if default_date is None:
             date = datetime.datetime.now()
-            default_date = Date(date.day, date.month, date.year)
+            default_date = Date(date.day, date.month, date.year, date_format=date_format)
         elif not isinstance(default_date, Date):
             raise TypeError(f"The given default_date argument is not a Date instance: {type(default_date)}")
 
@@ -486,13 +492,11 @@ class DateSelectorButton(ctk.CTkButton):
         if (min_date is not None and max_date is not None) and min_date > max_date:
             raise ValueError(f"The minimum date cannot be greater than the maximum date: {min_date}, {max_date}")
 
-        if restrained_to_master:
-            self._popup_frame = ctk.CTkFrame(master)
-        else:
+        if not restrained_to_master:
             while not isinstance(master, (tk.Tk, ctk.CTk, tk.Toplevel, ctk.CTkToplevel)):
                 master_name = master.winfo_parent()
                 master = master._nametowidget(master_name)
-            self._popup_frame = DateSelector(master, callback=callback, default_date=default_date, min_date=min_date, max_date=max_date)
+        self._popup_frame = DateSelector(master, callback=callback, default_date=default_date, min_date=min_date, max_date=max_date, date_format=date_format)
 
     def _on_clicked(self):
         """ Called when the button is clicked """
