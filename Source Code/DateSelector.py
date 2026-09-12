@@ -24,15 +24,13 @@ def week_days_list_when_week_starts_with(weekday: Literal["mon", "tue", "wed", "
 
 
 class Date:
-    def __init__(self, day: int, month: int, year: int, hour: int = None, minute: int = None, date_format: Literal["dmy", "mdy", "ymd"] = "dmy"):
+    def __init__(self, day: int, month: int, year: int, date_format: str = "dmy"):
         """Class to verify if a date is correct and store it (minute, hour, day, month, year)
 
         :param day: day of the event (takes into account the rules for the leap years) (if set to 0, it will take the last possible day of the month)
         :param month: month of the event
         :param year: year of the event
-        :param hour: optional: hour of the event
-        :param minute: optional: minute of the event (an hour must be entered to use the minute parameter)
-        :param date_format: format of the date ("dmy", "mdy" or "ymd")
+        :param date_format: format of the date that will be given when using str(Date), will replace %d, %m and %y by respectively the day, month and year (e.g. "%d/%m/%y", "%m-%d-%y", "Date: %y/%m/%d")
         """
         if type(year) is int:
             self.year = year
@@ -56,70 +54,40 @@ class Date:
         else:
             raise TypeError(f"The value entered for the day is not an int: {type(day)}")
 
-        if hour is not None:
-            if type(hour) is int:
-                if 0 <= hour <= 23:
-                    self.hour = hour
-                else:
-                    raise ValueError(f"The value given for the hour is invalid: {hour}")
-            else:
-                raise TypeError(f"The value entered for the hour is not an int: {type(hour)}")
-        else:
-            self.hour = None
-
-        if minute is not None:
-            if hour is not None:
-                if type(minute) is int:
-                    if 0 <= minute <= 59:
-                        self.minute = minute
-                    else:
-                        raise ValueError(f"The value given for the minute is invalid: {minute}")
-                else:
-                    raise TypeError(f"The value entered for the minute is not an int: {type(minute)}")
-            else:
-                raise ValueError(f"Cannot enter a minute without an hour")
-        else:
-            self.minute = None
-
         if type(date_format) is str:
-            if date_format in ["dmy", "mdy", "ymd"]:
-                self.format = date_format
-            else:
-                raise ValueError(f"The given date_format is incorrect: {date_format}")
+            self.format = date_format
         else:
             raise TypeError(f"The value entered for the date_format is not a string: {type(date_format)}")
 
     def __str__(self):
-        if self.format == "dmy":
-            date = f"Date: {self.day}/{self.month}/{self.year}"  # "Date: d/m/y, h:m"
-        elif self.format == "mdy":
-            date = f"Date: {self.month}/{self.day}/{self.year}"  # "Date: m/d/y, h:m"
-        else:
-            date = f"Date: {self.year}/{self.month}/{self.day}"  # "Date: y/m/d, h:m"
-
-        if self.hour is not None and self.minute is not None:
-            return f"{date}, {self.hour}:{self.minute}"
-        elif self.hour is not None:
-            return f"{date}, {self.hour}h"
-        else:
-            return date
+        value = ""
+        for i in range(len(self.format)):
+            if self.format[i] == "%":
+                if i + 1 < len(self.format):
+                    if self.format[i+1] == "d":
+                        if self.day < 10:
+                            value += "0"
+                        value += str(self.day)
+                    elif self.format[i+1] == "m":
+                        if self.month < 10:
+                            value += "0"
+                        value += str(self.month)
+                    elif self.format[i+1] == "y":
+                        value += str(self.year)
+                    else:
+                        value += "%"
+                        i += 1
+                else:
+                    value += "%"
+                    i += 1
+            else:
+                value += self.format[i]
+                i += 1
 
     def __eq__(self, other):
         if isinstance(other, Date):
             if self.day == other.day and self.month == other.month and self.year == other.year:
-                if self.hour is not None and other.hour is not None:
-                    if self.hour == other.hour:
-                        if self.minute is not None and other.minute is not None:
-                            if self.minute == other.minute:
-                                return True
-                            else:
-                                return False
-                        else:
-                            return True
-                    else:
-                        return False
-                else:
-                    return True
+                return True
             else:
                 return False
         else:
@@ -135,14 +103,6 @@ class Date:
                 elif self.month == other.month:
                     if self.day < other.day:
                         return True
-                    elif self.day == other.day:
-                        if self.hour is not None and other.hour is not None:
-                            if self.hour < other.hour:
-                                return True
-                            elif self.hour == other.hour:
-                                if self.minute is not None and other.minute is not None:
-                                    if self.minute < other.minute:
-                                        return True
             return False
         else:
             raise TypeError(f"Cannot compare {type(self)} and {type(other)}")
@@ -157,14 +117,6 @@ class Date:
                 elif self.month == other.month:
                     if self.day <= other.day:
                         return True
-                    elif self.day == other.day:
-                        if self.hour is not None and other.hour is not None:
-                            if self.hour <= other.hour:
-                                return True
-                            elif self.hour == other.hour:
-                                if self.minute is not None and other.minute is not None:
-                                    if self.minute <= other.minute:
-                                        return True
             return False
         else:
             raise TypeError(f"Cannot compare {type(self)} and {type(other)}")

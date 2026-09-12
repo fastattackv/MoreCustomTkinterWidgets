@@ -1,6 +1,15 @@
 # Patch notes for MoreCustomTkinterWidgets
 
 
+## v5.6.0
+12/09/2026
+
+Novelties:
+- Date:
+  - Modified `format` argument to make it more customizable (e.g. if you enter `%d/%m/%y` as a format, the output of `str(Date)` would be `12/09/2026`)
+  - Removed `hours` and `minutes`
+
+
 ## v5.5.0
 11/09/2026
 
